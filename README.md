@@ -1,4 +1,5 @@
 # 🏎 | Bumblebee Cars
+#  • Deploy: https://bumblebee-carros.vercel.app
 # • Requisitos:
 # <img src="/app/public/images/BumblebeeCarsRequisitos.jpeg" alt="Imagem do Alfood" width="40%" />
 # • Tela:
