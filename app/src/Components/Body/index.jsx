@@ -73,7 +73,7 @@ const Body = () => {
     };
 
     return(
-        <div className='d-flex justify-content-center vh-100'>
+        <div className='containerBody d-flex justify-content-center'>
             <div className='containerForm'>
                 <form 
                 className='d-flex justify-content-center'

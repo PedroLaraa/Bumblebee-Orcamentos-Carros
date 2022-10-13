@@ -1,0 +1,14 @@
+.developerSocialMediaComponent{
+    display: flex;
+    justify-content: center;
+}
+
+.developerSocialMediaComponent img{
+    width: 2rem;
+    margin: .4rem;
+}
+
+.developerSocialMediaComponent a :hover{
+    background-color: white;
+    border-radius: 50%;
+}
