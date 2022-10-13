@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 
-import './bodyStyle.css'
+import './bodyStyle.css';
 
 const Body = () => {
 
@@ -13,9 +13,11 @@ const Body = () => {
 
     const [entrada, setEntrada] = useState('');
 
-    const [parcelas, setParcelas] = useState([])
+    const parcelas = []
 
-    const [parcelaSelecionada, setParcelaSelecionada] = useState('')
+    const [parcelaSelecionada, setParcelaSelecionada] = useState('');
+
+    const porcentagemCarro = parseInt(carro) / 100;
 
     const carrosDisponiveis = [
     {
@@ -47,29 +49,28 @@ const Body = () => {
 
     const validarCondicoesDeEntrada = (e) => {
 
-        e.preventDefault()
+        e.preventDefault();
 
-        const percentualCarro = parseInt(carro) / 100
+        const percentualCarro = parseInt(carro) / 100;
 
-        if(percentualCarro * 30 < entrada && percentualCarro * 90 > entrada){
-            setEntradaAceita(true)
+        if(30 < entrada && 90 > entrada){
+            setEntradaAceita(true);
         }else if(percentualCarro * 30 > entrada){
-            alert(`A entrada deve ser acima de: R$ ${percentualCarro * 30}` )
+            alert(`A entrada deve ser acima de 30%` );
         }else{
-            alert(`A entrada deve ser menor que: R$ ${percentualCarro * 90}` )
-        }
-    }
+            alert(`A entrada deve ser menor que 90%` );
+        };
+    };
 
-    if(faltaPagar > 0 && entradaAceita == true){
+    if(faltaPagar > 0 && entradaAceita === true){
         for(let i = 1; i <= 24; i++){
-            parcelas.push(faltaPagar / i);
-            console.log(parcelas);
+            parcelas.push(parseFloat(faltaPagar / i));
         };
     };
 
     const concluirOrcamento = (e) => {
-        alert(`Suas condições de compra são válidas: Entrada - R$ ${parseFloat(entrada).toFixed(2)} | Parcelas - R$ ${parseFloat(parcelaSelecionada).toFixed(2)}`)
-    }
+        alert(`Suas condições de compra são válidas: Entrada - R$ ${parseFloat(entrada * porcentagemCarro).toFixed(2)} | Parcelas - R$ ${parseFloat(parcelaSelecionada).toFixed(2)}`);
+    };
 
     return(
         <div className='d-flex justify-content-center vh-100'>
@@ -80,13 +81,17 @@ const Body = () => {
                 onSubmit={(e) => concluirOrcamento(e)}
                 >
                     <div className='formularioBody'>
+                        <div className='d-flex justify-content-center'>
+                            <h1 className='fs-3 text-uppercase'>Orçamentos</h1>
+                        </div>
                         <div className='p-2'>
                             <label>• Veículo: </label>
                             <select 
                             className="form-select w-100" 
                             aria-label="Default select example" 
+                            defaultValue={null}
                             onChange={(e) => setCarro(e.target.value)}>
-                                <option selected>Selecione o carro</option>
+                                <option>Selecione o carro</option>
                                 {carrosDisponiveis.map(v => (
                                     <option 
                                     key={v.modelo}
@@ -97,15 +102,15 @@ const Body = () => {
                         </div>
                         {carro && (
                             <div className='p-2'>
-                                <label>• Entrada: </label>
+                                <label>• Entrada (%): </label>
                                 <input 
                                 onChange={(e) => {
                                     const entrada = parseInt(e.target.value)
                                     setEntrada(entrada)
-                                    setFaltaPagar(parseInt(carro) - entrada)
+                                    setFaltaPagar(parseInt(carro) - (entrada * porcentagemCarro))
                                 }}
                                 type="number" />
-                                {entradaAceita == false ? 
+                                {entradaAceita === false ? 
                                 <div className='pt-2'>
                                     <button 
                                     className='btn btn-outline-dark'
@@ -123,13 +128,14 @@ const Body = () => {
                                         <select 
                                             className="form-select w-100" 
                                             aria-label="Default select example" 
+                                            defaultValue={null}
                                             onChange={(e) => setParcelaSelecionada(e.target.value)}>
-                                        <option selected>Selecione as parcelas</option>
+                                        <option >Selecione as parcelas</option>
                                         {parcelas.map((v, i) => (
                                             <>
                                             {i + 1 >= 3 && (
                                                 <option 
-                                                key={i}
+                                                key={v}
                                                 value={v}
                                                 >{`${i + 1} x R$ ${v.toFixed(2)}`}
                                                 </option>
