@@ -1,0 +1,23 @@
+.containerForm{
+    align-self: center;
+    background-color: whitesmoke;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: .4rem;
+    width: 30rem;
+    height: 50%;
+}
+
+.formularioBody{
+    width: 98%;
+}
+
+.formularioBody label{
+    font-size: 1.2rem;
+}
+
+.formularioBody input{
+    width: 100%;
+    border: 1.5px solid rgba(0, 0, 0, 0.219);
+    border-radius: .4rem;
+    height: 2rem;
+}
