@@ -3,7 +3,10 @@ import { useState } from 'react';
 
 import './bodyStyle.css';
 
-const Body = () => {
+import SelectCarro from './SelectCarro';
+import SelectParcela from './SelectParcelas';
+
+const Body = (props) => {
 
     const [carro, setCarro] = useState('');
 
@@ -46,7 +49,7 @@ const Body = () => {
         ano: '2012'
     },
     ];
-
+    
     const validarCondicoesDeEntrada = (e) => {
 
         e.preventDefault();
@@ -85,30 +88,22 @@ const Body = () => {
                             <h1 className='fs-3 text-uppercase'>Orçamentos</h1>
                         </div>
                         <div className='p-2'>
-                            <label>• Veículo: </label>
-                            <select 
-                            className="form-select w-100" 
-                            aria-label="Default select example" 
-                            defaultValue={null}
-                            onChange={(e) => setCarro(e.target.value)}>
-                                <option>Selecione o carro</option>
-                                {carrosDisponiveis.map(v => (
-                                    <option 
-                                    key={v.modelo}
-                                    value={v.valor}
-                                    >{`${v.modelo} - ${v.ano} - R$ ${v.valor}`}</option>
-                                ))}
-                            </select>
+                            <SelectCarro 
+                            txtLabel='• Veículos:'
+                            funcao={setCarro}
+                            txtOption='Selecione seu veículo:'
+                            array={carrosDisponiveis}
+                            />
                         </div>
                         {carro && (
                             <div className='p-2'>
                                 <label>• Entrada (%): </label>
                                 <input 
-                                onChange={(e) => {
-                                    const entrada = parseInt(e.target.value)
-                                    setEntrada(entrada)
-                                    setFaltaPagar(parseInt(carro) - (entrada * porcentagemCarro))
-                                }}
+                                    onChange={(e) => {
+                                        const entrada = parseInt(e.target.value)
+                                        setEntrada(entrada)
+                                        setFaltaPagar(parseInt(carro) - (entrada * porcentagemCarro))
+                                    }}
                                 type="number" />
                                 {entradaAceita === false ? 
                                 <div className='pt-2'>
@@ -124,25 +119,13 @@ const Body = () => {
                                 }
                                 {entradaAceita && (
                                     <>
-                                        <label>• Parcelas: </label>
-                                        <select 
-                                            className="form-select w-100" 
-                                            aria-label="Default select example" 
-                                            defaultValue={null}
-                                            onChange={(e) => setParcelaSelecionada(e.target.value)}>
-                                        <option >Selecione as parcelas</option>
-                                        {parcelas.map((v, i) => (
-                                            <>
-                                            {i + 1 >= 3 && (
-                                                <option 
-                                                key={v}
-                                                value={v}
-                                                >{`${i + 1} x R$ ${v.toFixed(2)}`}
-                                                </option>
-                                            )}
-                                            </>
-                                        ))}
-                                        </select>
+                                        <SelectParcela 
+                                        txtLabel='• Parcelas: '
+                                        funcao={setParcelaSelecionada}
+                                        txtOption='Selecione as parcelas'
+                                        array={parcelas}
+                                        parcelasMinimas={3}
+                                        />                                        
                                         {parcelaSelecionada && (
                                             <div className='pt-2'>
                                             <button
