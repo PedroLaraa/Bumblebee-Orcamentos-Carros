@@ -20,6 +20,8 @@ const Body = (props) => {
 
     const [parcelaSelecionada, setParcelaSelecionada] = useState('');
 
+    const [pagamentoAprovado, setPagamentoAprovado] = useState(false);
+
     const porcentagemCarro = parseInt(carro) / 100;
 
     const carrosDisponiveis = [
@@ -72,7 +74,8 @@ const Body = (props) => {
     };
 
     const concluirOrcamento = (e) => {
-        alert(`Suas condições de compra são válidas: Entrada - R$ ${parseFloat(entrada * porcentagemCarro).toFixed(2)} | Parcelas - R$ ${parseFloat(parcelaSelecionada).toFixed(2)}`);
+        e.preventDefault();
+        setPagamentoAprovado(true)
     };
 
     return(
@@ -133,6 +136,12 @@ const Body = (props) => {
                                             className='btn btn-outline-dark'
                                             >Concluir Orçamento</button>
                                             </div>
+                                        )}
+                                        {pagamentoAprovado === true && (
+                                            <>
+                                                <br />
+                                                <p> Suas condições de compra são válidas: Entrada - R${parseFloat(entrada * porcentagemCarro).toFixed(2)} | Parcelas - R${parseFloat(parcelaSelecionada).toFixed(2)}</p>
+                                            </>
                                         )}
                                     </>
                                 )}
